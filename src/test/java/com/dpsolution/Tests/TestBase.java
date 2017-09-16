@@ -15,6 +15,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.util.concurrent.TimeUnit;
 import java.net.URL;
+import org.apache.commons.lang3.SystemUtils;
 import java.util.LinkedList;
 
 public class TestBase {
@@ -23,7 +24,16 @@ public class TestBase {
 
     @Before
     public void setUp() throws Exception {
-        System.setProperty("webdriver.chrome.driver", "src/test/java/com/dpsolution/Tests/resource/chromedriver_mac");
+// Depend upon OS check for Chromedriver
+        if (SystemUtils.IS_OS_LINUX){
+            System.setProperty("webdriver.chrome.driver", "src/test/java/com/dpsolution/Tests/resource/chromedriver_linux64");
+
+        } else{
+            System.setProperty("webdriver.chrome.driver", "src/test/java/com/dpsolution/Tests/resource/chromedriver_mac");
+
+        }
+
+
         driver = new ChromeDriver();
         driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
         driver.manage().window().maximize();
